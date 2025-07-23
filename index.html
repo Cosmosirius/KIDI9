@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>コンビニ</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body
+    class="m-0 p-0 d-flex flex-column justify-content-center hide-scrollbar"
+  >
+    <!-- TITTLE -->
+    <header class="container-fluid sticky-top">
+      <h1 class="display-4 text-center">コンビニ | KONBINI</h1>
+    </header>
+
+    <!-- Showcase Snacks -->
+    <section class="container-fluid d-grid py-4 gap-3 mb-5">
+      <div id="snack-rack" class="d-flex gap-3 flex-nowrap py-3 px-3"></div>
+      <div id="drink-rack" class="d-flex gap-3 flex-nowrap py-3 px-3"></div>
+    </section>
+
+    <!-- Cart Button -->
+    <button
+      class="btn-cart position-fixed end-0 bottom-0 m-4"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasWithBothOptions"
+      aria-controls="offcanvasWithBothOptions"
+    >
+      <img src="assets/snack (1).png" alt="Keranjang" width="60vw" />
+    </button>
+
+    <div
+      class="offcanvas offcanvas-end"
+      data-bs-scroll="true"
+      tabindex="-1"
+      id="offcanvasWithBothOptions"
+      aria-labelledby="offcanvasWithBothOptionsLabel"
+    >
+      <div class="offcanvas-header">
+        <h5
+          class="offcanvas-title px-3 rounded-pill"
+          id="offcanvasWithBothOptionsLabel"
+          style="
+            font-family: 'Cherry Bomb One', system-ui;
+            background-color: var(--color2);
+            color: var(--color1);
+          "
+        >
+          Your Cart
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul id="cartList" class="d-flex flex-column gap-2 m-0"></ul>
+        <div class="totalList">
+          <p class="d-flex justify-content-between m-0">
+            Total Items <span id="itemtotal">0</span>
+          </p>
+          <p class="d-flex justify-content-between m-0">
+            Subtotal <span id="subtotal">¥0</span>
+          </p>
+          <p class="d-flex justify-content-between m-0">
+            Discount <span id="totalDiscount">-¥0</span>
+          </p>
+          <hr style="border-top: dashed var(--color1)" />
+          <p class="d-flex justify-content-between m-0">
+            Total <span id="total">¥0</span>
+          </p>
+        </div>
+        <button id="BuyBtn">Buy</button>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
