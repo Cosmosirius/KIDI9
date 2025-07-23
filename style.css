@@ -180,13 +180,14 @@ footer {
 #BuyBtn {
   width: 100%;
   height: 7%;
-  background-color: var(--color4);
+  background-color: var(--color8);
   border: none;
   border-radius: 1em;
   font-family: var(--font-mono);
   font-weight: 600;
 }
 
-#BuyBtn:hover {
-  background-color: var(--color10);
+#BuyBtn:disabled {
+  background-color: var(--color7);
+  cursor: not-allowed;
 }

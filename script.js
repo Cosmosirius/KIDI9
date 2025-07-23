@@ -56,20 +56,20 @@ snacks.forEach(snack => {
             const li = document.createElement("li");
             li.className = "list d-flex";
             li.innerHTML = `
-      <img class="bg-alert" src="assets/${list.id}.png" width="100vw">
-      <div class="note flex-fill d-flex flex-column justify-content-evenly">
-        <p class="m-0">${list.name}</p>
-        <span class="m-0">
-          ¥${list.price * list.qty} 
-          ${list.discount > 0 ? `<span style="padding:0 0.5rem; border-radius:100vh; background-color: var(--color7);">-${list.discount * 100}%</span>` : ""}
-        </span>
-      </div>
-      <div class="note d-flex flex-column align-content-stretch justify-content-between text-center px-3">
-        <button class="plusQty px-3" data-id="${list.id}">+</button>
-        <span class="m-0">${list.qty}</span>
-        <button class="minQty px-3" data-id="${list.id}">-</button>
-      </div>
-    `;
+                            <img class="bg-alert" src="assets/${list.id}.png" width="100vw">
+                            <div class="note flex-fill d-flex flex-column justify-content-evenly">
+                                <p class="m-0">${list.name}</p>
+                                <span class="m-0">
+                                ¥${list.price * list.qty} 
+                                ${list.discount > 0 ? `<span style="padding:0 0.5rem; border-radius:100vh; background-color: var(--color7);">-${list.discount * 100}%</span>` : ""}
+                                </span>
+                            </div>
+                            <div class="note d-flex flex-column align-content-stretch justify-content-between text-center px-3">
+                                <button class="plusQty px-3" data-id="${list.id}">+</button>
+                                <span class="m-0">${list.qty}</span>
+                                <button class="minQty px-3" data-id="${list.id}">-</button>
+                            </div>
+                            `;
             cartList.appendChild(li);
         });
 
@@ -103,6 +103,7 @@ snacks.forEach(snack => {
         });
 
         updateSummary();
+        handleBuy();
     }
 
     function updateSummary() {
@@ -134,10 +135,10 @@ snacks.forEach(snack => {
 
         const snack = snacks.find(s => s.id === id); // ambil datanya
         itemBtn.innerHTML = `
-    <img src="assets/${id}.png">
-    <p>${snack.name} <span class="tag-price">¥${snack.price}</span></p>
-    ${qty > 0 ? `<div class="qty-badge">${qty}</div>` : ""}
-  `;
+                                <img src="assets/${id}.png">
+                                <p>${snack.name} <span class="tag-price">¥${snack.price}</span></p>
+                                ${qty > 0 ? `<div class="qty-badge">${qty}</div>` : ""}
+                            `;
         const tagPrice = itemBtn.querySelector(".tag-price");
         tagPrice.style.backgroundColor = snack.discount > 0 ? `#EA7D70` : `#ABCDDE`;
     }
@@ -159,3 +160,17 @@ snacks.forEach(snack => {
 
     (snack.category === "snack" ? snackRack : drinkRack).appendChild(item);
 });
+
+const buyBtn = document.getElementById("BuyBtn");
+buyBtn.addEventListener("click", () => {
+    window.location.href = "buy.html";
+  });
+
+function handleBuy() {
+    if (cart.length === 0) {
+        buyBtn.disabled = true;
+    } else {
+        buyBtn.disabled = false;
+    }
+};
+
