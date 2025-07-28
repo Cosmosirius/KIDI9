@@ -1,210 +1,538 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>EmoLife - Mood & Life Tracker</title>
-  <style>
-    :root {
-      --primary: #e76f51;
-      --accent: #2a9d8f;
-      --bg: #fdf6f0;
-    }
-
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: var(--bg);
-      margin: 0;
-      padding: 20px;
-      color: #333;
-    }
-
-    h1, h2 {
-      color: var(--primary);
-    }
-
-    .card {
-      background: white;
-      padding: 15px;
-      border-radius: 16px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-      transition: background 0.3s ease;
-    }
-
-    label, select, input, textarea {
-      display: block;
-      width: 100%;
-      margin: 8px 0;
-      font-size: 1em;
-    }
-
-    button {
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 10px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-
-    button:hover {
-      background: #21867a;
-    }
-
-    .mood-happy    { background-color: #fef8ec; }
-    .mood-sad      { background-color: #f2f0fa; }
-    .mood-angry    { background-color: #fcebea; }
-    .mood-sleepy   { background-color: #edf6f9; }
-    .mood-anxious  { background-color: #fff4e6; }
-
-    @media (max-width: 600px) {
-      body { padding: 10px; }
-      button { width: 100%; }
-    }
-
-    .history {
-      font-size: 0.9em;
-      color: #444;
-      margin-top: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catatan Penjualan</title>
+    <style>
+        :root {
+            --primary: #9929EA;
+            --secondary: #CC66DA;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        .app-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .main-content {
+            background: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .card h3 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        .card .amount {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .profit {
+            color: #2ecc71;
+        }
+        .loss {
+            color: var(--danger);
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: bold;
+        }
+        .form-container {
+            margin-bottom: 30px;
+        }
+        form {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: var(--secondary);
+        }
+        .btn-danger {
+            background: var(--danger);
+        }
+        .btn-danger:hover {
+            background: #d1145a;
+        }
+        .history-section {
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: var(--light);
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+        }
+        tr:hover {
+            background: rgba(0,0,0,0.02);
+        }
+        .action-btn {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+        .current-date {
+            margin-top: 5px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        @media (max-width: 600px) {
+            .summary-cards {
+                grid-template-columns: 1fr;
+            }
+            .app-container {
+                padding: 0 10px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="app-container">
+        <header>
+            <div class="logo">Catat Penjualan</div>
+            <div class="current-date" id="current-date"></div>
+        </header>
+        
+        <div class="main-content">
+            <div class="summary-cards">
+                <div class="card">
+                    <h3>Total Modal</h3>
+                    <div class="amount" id="total-modal">Rp 0</div>
+                </div>
+                <div class="card">
+                    <h3>Total Penjualan</h3>
+                    <div class="amount" id="total-penjualan">Rp 0</div>
+                </div>
+                <div class="card">
+                    <h3>Laba/Rugi</h3>
+                    <div class="amount" id="laba-rugi">Rp 0</div>
+                </div>
+            </div>
+            
+            <div class="tabs tab-form">
+                <div class="tab active" onclick="switchTab('modal')">Tambah Modal</div>
+                <div class="tab" onclick="switchTab('penjualan')">Tambah Penjualan</div>
+            </div>
 
-  <h1>🧠 EmoLife</h1>
+            
+            <div class="form-container">
+                <div id="form-modal-container">
+                    <form id="form-modal">
+                        <div class="form-group">
+                            <label for="tanggal-modal">Tanggal</label>
+                            <input type="date" id="tanggal-modal" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="jumlah-modal">Jumlah Modal (Rp)</label>
+                            <input type="number" id="jumlah-modal" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan-modal">Keterangan</label>
+                            <input type="text" id="keterangan-modal" placeholder="Contoh: Donat Coklat">
+                        </div>
+                        <button type="submit">Simpan Modal</button>
+                    </form>
+                </div>
+                
+                <div id="form-penjualan-container" class="hidden">
+                    <form id="form-penjualan">
+                        <div class="form-group">
+                            <label for="tanggal-penjualan">Tanggal</label>
+                            <input type="date" id="tanggal-penjualan" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="produk-penjualan">Nama Produk</label>
+                            <input type="text" id="produk-penjualan" placeholder="Contoh: Donat coklat" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="jumlah-penjualan">Jumlah Terjual</label>
+                            <input type="number" id="jumlah-penjualan" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="harga-penjualan">Harga Satuan (Rp)</label>
+                            <input type="number" id="harga-penjualan" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan-penjualan">Keterangan</label>
+                            <input type="text" id="keterangan-penjualan" placeholder="Contoh: Jual di kelas X">
+                        </div>
+                        <button type="submit">Simpan Penjualan</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="history-section">
+                <h2>Riwayat Transaksi</h2>
+                <div class="tabs">
+                    <div class="tab active" onclick="switchHistory('riwayat-modal')">Modal</div>
+                    <div class="tab" onclick="switchHistory('riwayat-penjualan')">Penjualan</div>
+                </div>
+                
+                <div class="table-container">
+                    <div id="riwayat-modal">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Jumlah</th>
+                                    <th>Keterangan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-modal">
+                                <!-- Data akan diisi oleh JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="riwayat-penjualan" class="hidden">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Produk</th>
+                                    <th>Jumlah</th>
+                                    <th>Harga</th>
+                                    <th>Total</th>
+                                    <th>Keterangan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-penjualan">
+                                <!-- Data akan diisi oleh JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <div class="card" id="moodCard">
-    <h2>✨ Mood Journal Hari Ini</h2>
-    <label for="mood">Mood Kamu:</label>
-    <select id="mood">
-      <option value="😊">😊 Bahagia</option>
-      <option value="😢">😢 Sedih</option>
-      <option value="😡">😡 Marah</option>
-      <option value="😴">😴 Lelah</option>
-      <option value="😱">😱 Cemas</option>
-    </select>
+    <script>
+        // Data penyimpanan sementara
+        let modalDagang = JSON.parse(localStorage.getItem('modalDagang')) || [];
+        let penjualan = JSON.parse(localStorage.getItem('penjualan')) || [];
+        
+        // Tampilkan tanggal hari ini
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('id-ID', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        // Set tanggal default ke hari ini
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('tanggal-modal').value = today;
+        document.getElementById('tanggal-penjualan').value = today;
+        
+        // Fungsi untuk memformat angka ke Rupiah
+        function formatRupiah(angka) {
+            // Menggunakan fitur ES6+: template literals
+            return `Rp ${angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+        }
+        
+        // Fungsi untuk menghitung total modal
+        function hitungTotalModal() {
+            // Menggunakan fitur ES6+: arrow function & reduce
+            return modalDagang.reduce((total, item) => total + item.jumlah, 0);
+        }
+        
+        // Fungsi untuk menghitung total penjualan
+        function hitungTotalPenjualan() {
+            // Menggunakan fitur ES6+: arrow function & reduce
+            return penjualan.reduce((total, item) => total + (item.jumlah * item.harga), 0);
+        }
+        
+        // Fungsi untuk memperbarui ringkasan
+        function updateRingkasan() {
+            const totalModal = hitungTotalModal();
+            const totalPenjualan = hitungTotalPenjualan();
+            const labaRugi = totalPenjualan - totalModal;
+            
+            document.getElementById('total-modal').textContent = formatRupiah(totalModal);
+            document.getElementById('total-penjualan').textContent = formatRupiah(totalPenjualan);
+            
+            const labaRugiElement = document.getElementById('laba-rugi');
+            labaRugiElement.textContent = formatRupiah(Math.abs(labaRugi));
+            
+            // Menggunakan fitur ES6+: Math.abs, template literals, className assignment
+            if (labaRugi >= 0) {
+                labaRugiElement.className = 'amount profit';
+            } else {
+                labaRugiElement.className = 'amount loss';
+            }
+            
+            // Simpan ke localStorage
+            localStorage.setItem('modalDagang', JSON.stringify(modalDagang));
+            localStorage.setItem('penjualan', JSON.stringify(penjualan));
+        }
+        
+        // Fungsi untuk menampilkan data modal
+        function tampilkanModal() {
+            const tbody = document.getElementById('tabel-modal');
+            tbody.innerHTML = '';
+            
+            // Menggunakan fitur ES6+: spread operator, sort, arrow function
+            const sortedModal = [...modalDagang].sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+            
+            sortedModal.forEach((item, index) => {
+                // Menggunakan fitur ES6+: template literals
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.tanggal}</td>
+                    <td>${formatRupiah(item.jumlah)}</td>
+                    <td>${item.keterangan || '-'}</td>
+                    <td>
+                        <button class="action-btn btn-danger" onclick="hapusModal(${modalDagang.indexOf(item)})">Hapus</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            updateRingkasan();
+        }
+        
+        // Fungsi untuk menampilkan data penjualan
+        function tampilkanPenjualan() {
+            const tbody = document.getElementById('tabel-penjualan');
+            tbody.innerHTML = '';
+            
+            // Menggunakan fitur ES6+: spread operator, sort, arrow function
+            const sortedPenjualan = [...penjualan].sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+            
+            sortedPenjualan.forEach((item, index) => {
+                // Menggunakan fitur ES6+: template literals
+                const total = item.jumlah * item.harga;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.tanggal}</td>
+                    <td>${item.produk}</td>
+                    <td>${item.jumlah}</td>
+                    <td>${formatRupiah(item.harga)}</td>
+                    <td>${formatRupiah(total)}</td>
+                    <td>${item.keterangan || '-'}</td>
+                    <td>
+                        <button class="action-btn btn-danger" onclick="hapusPenjualan(${penjualan.indexOf(item)})">Hapus</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            updateRingkasan();
+        }
+        
+        // Fungsi untuk menambah modal
+        document.getElementById('form-modal').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const jumlah = parseInt(document.getElementById('jumlah-modal').value);
+            if (isNaN(jumlah) || jumlah <= 0) {
+                alert('Jumlah modal harus lebih dari 0');
+                return;
+            }
+            
+            // Menggunakan fitur ES6+: object literal shorthand
+            const newModal = {
+                tanggal: document.getElementById('tanggal-modal').value,
+                jumlah,
+                keterangan: document.getElementById('keterangan-modal').value
+            };
+            
+            modalDagang.push(newModal);
+            tampilkanModal();
+            
+            this.reset();
+            document.getElementById('tanggal-modal').value = today;
+            
+            alert('Modal berhasil ditambahkan!');
+        });
+        
+        // Fungsi untuk menambah penjualan
+        document.getElementById('form-penjualan').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const jumlah = parseInt(document.getElementById('jumlah-penjualan').value);
+            const harga = parseInt(document.getElementById('harga-penjualan').value);
+            
+            if (isNaN(jumlah) || jumlah <= 0) {
+                alert('Jumlah penjualan harus lebih dari 0');
+                return;
+            }
+            
+            if (isNaN(harga) || harga <= 0) {
+                alert('Harga satuan harus lebih dari 0');
+                return;
+            }
+            
+            // Menggunakan fitur ES6+: object literal shorthand
+            const newPenjualan = {
+                tanggal: document.getElementById('tanggal-penjualan').value,
+                produk: document.getElementById('produk-penjualan').value,
+                jumlah,
+                harga,
+                keterangan: document.getElementById('keterangan-penjualan').value
+            };
+            
+            penjualan.push(newPenjualan);
+            tampilkanPenjualan();
+            
+            this.reset();
+            document.getElementById('tanggal-penjualan').value = today;
+            
+            alert('Penjualan berhasil ditambahkan!');
+        });
+        
+        // Fungsi untuk menghapus modal
+        function hapusModal(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus data modal ini?')) {
+                modalDagang.splice(index, 1);
+                tampilkanModal();
+                alert('Modal berhasil dihapus!');
+            }
+        }
+        
+        // Fungsi untuk menghapus penjualan
+        function hapusPenjualan(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus data penjualan ini?')) {
+                penjualan.splice(index, 1);
+                tampilkanPenjualan();
+                alert('Penjualan berhasil dihapus!');
+            }
+        }
+        
+        // Fungsi untuk switch tab form
+        function switchTab(tab) {
+            // Menggunakan fitur ES6+: querySelectorAll, forEach, classList
+            const tabs = document.querySelectorAll('.tab-form .tab');
+            tabs.forEach(t => t.classList.remove('active'));
 
-    <label for="activity">Aktivitasmu hari ini:</label>
-    <textarea id="activity" rows="2" placeholder="Contoh: Belajar JS, nonton film..."></textarea>
-
-    <button onclick="saveMood()">Simpan Mood</button>
-    <div class="history" id="history"></div>
-  </div>
-
-  <div class="card">
-    <h2>🔮 Kata Ajaib:</h2>
-    <p id="magicQuote">—</p>
-  </div>
-
-  <div class="card">
-    <h2>🎬 Rekomendasi Film:</h2>
-    <p id="recommendation">—</p>
-  </div>
-
-  <div class="card">
-    <h2>📊 Statistik Mood Mingguan</h2>
-    <ul id="stats"></ul>
-  </div>
-
-  <div class="card">
-    <h2>⏳ Hitung Umur & Waktu Hidup</h2>
-    <label for="birth">Tanggal Lahir:</label>
-    <input type="date" id="birth"/>
-    <button onclick="calculateLife()">Hitung</button>
-    <div id="lifeResult"></div>
-  </div>
-
-  <script>
-    const quotes = new Map([
-      ["😊", "Tetap tersenyum, dunia ikut bahagia!"],
-      ["😢", "Tak apa bersedih, besok akan lebih baik."],
-      ["😡", "Tarik napas... Kamu bisa kendalikan ini."],
-      ["😴", "Istirahat itu penting, tubuhmu butuh kasih sayang."],
-      ["😱", "Tenang... semua akan berlalu."]
-    ]);
-
-    const movieSuggestions = new Map([
-      ["😊", ["Sing 2", "Coco", "Zootopia"]],
-      ["😢", ["Inside Out", "A Silent Voice", "Five Feet Apart"]],
-      ["😡", ["Kung Fu Panda", "The Pursuit of Happyness"]],
-      ["😴", ["Our Planet", "Kiki’s Delivery Service"]],
-      ["😱", ["Soul", "Encanto"]]
-    ]);
-
-    const moodLog = new Map();
-
-    function saveMood() {
-      const mood = document.getElementById("mood").value;
-      const activity = document.getElementById("activity").value.trim();
-      const today = new Date().toISOString().split('T')[0];
-
-      moodLog.set(today, { mood, activity });
-
-      // Magic quote & movie
-      document.getElementById("magicQuote").textContent = quotes.get(mood) ?? "Kamu luar biasa!";
-      const filmList = movieSuggestions.get(mood);
-      document.getElementById("recommendation").textContent =
-        filmList[Math.floor(Math.random() * filmList.length)];
-
-      // Warna background by mood
-      const moodCard = document.getElementById("moodCard");
-      moodCard.className = "card mood-" + getMoodClass(mood);
-
-      // Update history
-      document.getElementById("history").textContent = `Tersimpan: ${mood} - "${activity}"`;
-
-      // Update statistik
-      updateStats();
-    }
-
-    function getMoodClass(mood) {
-      return {
-        "😊": "happy",
-        "😢": "sad",
-        "😡": "angry",
-        "😴": "sleepy",
-        "😱": "anxious"
-      }[mood] || "";
-    }
-
-    function updateStats() {
-      const stats = {};
-      for (let [_, data] of moodLog.entries()) {
-        stats[data.mood] = (stats[data.mood] || 0) + 1;
-      }
-
-      const statEl = document.getElementById("stats");
-      statEl.innerHTML = Object.entries(stats).map(([mood, count]) =>
-        `<li>${mood}: ${count}x</li>`).join('');
-    }
-
-    function calculateLife() {
-      const birth = new Date(document.getElementById("birth").value);
-      const today = new Date();
-
-      if (isNaN(birth)) {
-        alert("Masukkan tanggal lahir dengan benar.");
-        return;
-      }
-
-      const days = Math.trunc((today - birth) / (1000 * 60 * 60 * 24));
-      const years = Math.trunc(days / 365.25);
-      const months = Math.trunc((days % 365.25) / 30.44);
-      const sleepDays = Math.trunc(days / 3);
-      const ytHours = days;
-      const productive = days - sleepDays - (ytHours / 24);
-
-      const result = `
-        <p>Umur kamu: <strong>${years} tahun ${months} bulan</strong></p>
-        <p>Total hari hidup: <strong>${days}</strong></p>
-        <p>Waktu tidur: ~<strong>${sleepDays}</strong> hari</p>
-        <p>Nonton YouTube (1 jam/hari): ~<strong>${ytHours}</strong> jam</p>
-        <p>Hari produktif: ~<strong>${Math.trunc(productive)}</strong></p>
-      `;
-      document.getElementById("lifeResult").innerHTML = result;
-    }
-  </script>
+            if (tab === 'modal') {
+                tabs[0].classList.add('active');
+                document.getElementById('form-modal-container').classList.remove('hidden');
+                document.getElementById('form-penjualan-container').classList.add('hidden');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('form-modal-container').classList.add('hidden');
+                document.getElementById('form-penjualan-container').classList.remove('hidden');
+            }
+        }
+        
+        // Fungsi untuk switch history
+        function switchHistory(table) {
+            // Menggunakan fitur ES6+: querySelectorAll, forEach, classList
+            const tabs = document.querySelectorAll('.history-section .tabs .tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            if (table === 'riwayat-modal') {
+                tabs[0].classList.add('active');
+                document.getElementById('riwayat-modal').classList.remove('hidden');
+                document.getElementById('riwayat-penjualan').classList.add('hidden');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('riwayat-modal').classList.add('hidden');
+                document.getElementById('riwayat-penjualan').classList.remove('hidden');
+            }
+        }
+        
+        // Tampilkan data awal
+        tampilkanModal();
+        tampilkanPenjualan();
+    </script>
 </body>
 </html>
